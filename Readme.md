@@ -1,1 +1,1 @@
-## GraphQL Training
+## GraphQL Training Session
