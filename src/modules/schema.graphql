@@ -1,0 +1,9 @@
+
+
+type Query{
+    messages: [Message!]!
+}
+
+type Mutation{
+    postMessage(content:String!,author:String!):Message!
+}
