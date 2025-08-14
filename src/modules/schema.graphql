@@ -2,8 +2,18 @@
 
 type Query{
     messages: [Message!]!
+    user:[User!]
+    getUser(id:ID!):User
+    getPost(id:ID!):Post!
+    posts:[Post!]!
+    comments:[Comment!]!
+    getComment(id:ID):Comment!
+    books:[Book!]
+    getBook(id:ID!):Book
+    author(id:ID!):Author
 }
 
 type Mutation{
     postMessage(content:String!,author:String!):Message!
+    postBook(title:String!,genre:String!):Book!
 }
