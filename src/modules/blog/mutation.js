@@ -31,7 +31,7 @@ export const blogMutation = {
     return commentId + 1;
   },
 
-  postComment: async(_, {content,authorId,postId}) => {
+  postComment: async(_, {content,authorId,postId},{pubsub}) => {
    await delay(3000)
      const newComment = {
       id: String(Comment.length+1),
@@ -40,6 +40,9 @@ export const blogMutation = {
       postId: parseInt(postId),
     };
     Comment.push(newComment);
+      pubsub.publish("COMMENT_POSTED",{
+      commentPosted:newComment
+    })
     return newComment
   },
 

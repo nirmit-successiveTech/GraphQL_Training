@@ -21,3 +21,8 @@ type Mutation{
     postPost(title:String!,content:String!,authorId:String!):Post!
     postComment(content:String!,authorId:ID!,postId:ID!):Comment!
 }
+
+type Subscription{
+    messagePosted:Message!
+    commentPosted:Comment!
+}

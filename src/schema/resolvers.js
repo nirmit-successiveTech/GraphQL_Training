@@ -16,6 +16,11 @@ export const resolvers = {
         ...blogModule.Mutation
     },
 
+    Subscription:{
+        ...messageModule.Subscription,
+        ...blogModule.Subscription
+    },
+
     Book:{
         author:(parent)=>{
             return Author.find(author =>author.id ===parent.authorId)
@@ -32,17 +37,15 @@ export const resolvers = {
     Comment:{
         post:(parent)=>{
             return Post.find(post => post.id === parent.postId)
-        }
-    },
-
-    Comment:{
-        author:(parent)=>{
+        },
+                author:(parent)=>{
             console.log(parent)
             const ans =  User.find(user => user.id === parent.authorId)
             console.log("ans is",ans);
             return ans;
         }
     },
+
 
     result:{
         __resolveType(obj){
