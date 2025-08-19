@@ -30,16 +30,16 @@ export const resolvers = {
 
     Comment:{
         post:(parent)=>{
+            console.log("calling post",parent.postId);
             return Post.find(post => post.id === parent.postId)
-        }
-    },
-
-    Comment:{
-        author:(parent)=>{
+        },
+                author:(parent)=>{
             console.log(parent)
             const ans =  User.find(user => user.id === parent.authorId)
             console.log("ans is",ans);
             return ans;
         }
-    }
+    },
+
+
 };
