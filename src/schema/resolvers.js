@@ -1,9 +1,9 @@
-
 import { bookModule } from "../modules/books/index.js";
 import { messageModule } from "../modules/message/index.js";
 import { Author } from "../modules/books/dataSource.js";
 import { blogModule } from "../modules/blog/index.js";
 import { Post, User } from "../modules/blog/dataSource.js";
+
 export const resolvers = {
     Query:{
         ...messageModule.Query,
@@ -12,7 +12,8 @@ export const resolvers = {
     },
     Mutation:{
         ...messageModule.Mutation,
-        ...bookModule.Mutation
+        ...bookModule.Mutation,
+        ...blogModule.Mutation
     },
 
     Book:{
@@ -40,6 +41,25 @@ export const resolvers = {
             const ans =  User.find(user => user.id === parent.authorId)
             console.log("ans is",ans);
             return ans;
+        }
+    },
+
+    result:{
+        __resolveType(obj){
+            if(obj.name){
+                console.log('calling user')
+                return 'User'
+            }
+
+            if(obj.content){
+                console.log('calling post')
+                return 'Post'
+            }
+
+            if(obj.code){
+                console.log('calling error')
+                return 'AppError'
+            }
         }
     }
 };

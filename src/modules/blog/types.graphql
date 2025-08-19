@@ -18,3 +18,10 @@ type Comment{
     post:Post!,
     author:User!
 }
+
+type AppError{
+    message:String!,
+    code:Int!
+}
+
+union result = User | Post  | AppError

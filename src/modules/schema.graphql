@@ -3,9 +3,9 @@
 type Query{
     messages: [Message!]!
     user:[User!]
-    getUser(id:ID!):User
+    getUser(id:ID!):result!
     getPost(id:ID!):Post!
-    posts:[Post!]!
+    posts(limit:Int!,offset:Int!,nature:String!):[Post!]!
     comments:[Comment!]!
     getComment(id:ID):Comment!
     books:[Book!]
@@ -16,4 +16,8 @@ type Query{
 type Mutation{
     postMessage(content:String!,author:String!):Message!
     postBook(title:String!,genre:String!):Book!
+    postUser(name:String!,email:String!):User!
+    deleteComment(id:ID!):ID!
+    postPost(title:String!,content:String!,authorId:String!):Post!
+    postComment(content:String!,authorId:ID!,postId:ID!):Comment!
 }
