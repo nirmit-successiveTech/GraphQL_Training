@@ -39,7 +39,7 @@ import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/use/ws";
 
 import { pubsub } from "./pubsub.js"; // Import the pubsub instance
-
+import jwt from 'jsonwebtoken';
 import { typeDefs } from "../schema/typeDefs.js";
 import { resolvers } from "../schema/resolvers.js";
 
@@ -68,7 +68,15 @@ export async function createExpressServer() {
     cors(),
     express.json(),
     expressMiddleware(server, {
-      context: async () => ({ pubsub }),
+      context: async ({req}) => {
+        const token = req.headers.authorization || "";
+          if (!token) {
+    return { user: null };  // or skip adding user
+  }
+        const verifyUser = jwt.verify(token,"secret_key123");
+        console.log("context token ",token,verifyUser)
+        return {pubsub, verifyUser}
+      }
     })
   );
 

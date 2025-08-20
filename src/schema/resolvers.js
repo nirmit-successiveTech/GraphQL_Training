@@ -3,6 +3,8 @@ import { messageModule } from "../modules/message/index.js";
 import { Author } from "../modules/books/dataSource.js";
 import { blogModule } from "../modules/blog/index.js";
 import { Post, User } from "../modules/blog/dataSource.js";
+import { chatModule } from "../modules/chat/index.js";
+import { Sender, Text } from "../modules/chat/dataSource.js";
 
 export const resolvers = {
     Query:{
@@ -13,12 +15,14 @@ export const resolvers = {
     Mutation:{
         ...messageModule.Mutation,
         ...bookModule.Mutation,
-        ...blogModule.Mutation
+        ...blogModule.Mutation,
+        ...chatModule.Mutation
     },
 
     Subscription:{
         ...messageModule.Subscription,
-        ...blogModule.Subscription
+        ...blogModule.Subscription,
+        ...chatModule.Subscription
     },
 
     Book:{
@@ -38,13 +42,22 @@ export const resolvers = {
         post:(parent)=>{
             return Post.find(post => post.id === parent.postId)
         },
-                author:(parent)=>{
+            author:(parent)=>{
             console.log(parent)
             const ans =  User.find(user => user.id === parent.authorId)
             console.log("ans is",ans);
             return ans;
         }
     },
+
+    Text:{
+        sender:(parent)=>{
+            console.log('calling sender parent',parent);
+            return Sender.find(sender => sender.id === parent.senderId)
+        }
+    },
+
+
 
 
     result:{

@@ -20,9 +20,15 @@ type Mutation{
     deleteComment(id:ID!):ID!
     postPost(title:String!,content:String!,authorId:String!):Post!
     postComment(content:String!,authorId:ID!,postId:ID!):Comment!
+    postChat(content:String!,senderId:String!):Text!
+    login(username:String,password:String!):Token!
 }
-
+type Token{
+    token: String!
+    status:Int!
+}
 type Subscription{
     messagePosted:Message!
     commentPosted:Comment!
+    chatPosted:Text!
 }
