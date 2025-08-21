@@ -3,6 +3,7 @@ type Sender{
     id:String!
     username:String!
     password:String!
+    status:String!
 }
 
 type Text{
@@ -10,3 +11,9 @@ type Text{
     content:String!
     sender:Sender!
 }
+
+type allChat{
+    userChat:Text
+}
+
+union Current = Sender | Text

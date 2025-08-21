@@ -7,75 +7,84 @@ import { chatModule } from "../modules/chat/index.js";
 import { Sender } from "../modules/chat/dataSource.js";
 
 export const resolvers = {
-    Query:{
-        ...messageModule.Query,
-        ...blogModule.Query,
-        ...bookModule.Query
+  Query: {
+    ...messageModule.Query,
+    ...blogModule.Query,
+    ...bookModule.Query,
+    ...chatModule.Query
+  },
+  Mutation: {
+    ...messageModule.Mutation,
+    ...bookModule.Mutation,
+    ...blogModule.Mutation,
+    ...chatModule.Mutation,
+  },
+
+  Subscription: {
+    ...messageModule.Subscription,
+    ...blogModule.Subscription,
+    ...chatModule.Subscription,
+  },
+
+  Book: {
+    author: (parent) => {
+      return Author.find((author) => author.id === parent.authorId);
     },
-    Mutation:{
-        ...messageModule.Mutation,
-        ...bookModule.Mutation,
-        ...blogModule.Mutation,
-        ...chatModule.Mutation
+  },
+
+  Post: {
+    author: (parent) => {
+      console.log(parent);
+      return User.find((user) => user.id === parent.authorId);
     },
+  },
 
-    Subscription:{
-        ...messageModule.Subscription,
-        ...blogModule.Subscription,
-        ...chatModule.Subscription
+  Comment: {
+    post: (parent) => {
+      return Post.find((post) => post.id === parent.postId);
     },
-
-    Book:{
-        author:(parent)=>{
-            return Author.find(author =>author.id ===parent.authorId)
-        }
+    author: (parent) => {
+      console.log(parent);
+      const ans = User.find((user) => user.id === parent.authorId);
+      console.log("ans is", ans);
+      return ans;
     },
+  },
 
-    Post:{
-        author:(parent)=>{
-            console.log(parent)
-            return User.find(user => user.id === parent.authorId)
-        }
+  Text: {
+    sender: (parent) => {
+      console.log("calling sender parent", parent);
+      return Sender.find((sender) => sender.id === parent.senderId);
     },
+  },
 
-    Comment:{
-        post:(parent)=>{
-            return Post.find(post => post.id === parent.postId)
-        },
-            author:(parent)=>{
-            console.log(parent)
-            const ans =  User.find(user => user.id === parent.authorId)
-            console.log("ans is",ans);
-            return ans;
-        }
+  result: {
+    __resolveType(obj) {
+      if (obj.name) {
+        console.log("calling user");
+        return "User";
+      }
+
+      if (obj.content) {
+        console.log("calling post");
+        return "Post";
+      }
+
+      if (obj.code) {
+        console.log("calling error");
+        return "AppError";
+      }
     },
-
-    Text:{
-        sender:(parent)=>{
-            console.log('calling sender parent',parent);
-            return Sender.find(sender => sender.id === parent.senderId)
-        }
+  },
+  Current: {
+    __resolveType(obj) {
+      if (obj.content && obj.senderId) {
+        return "Text";
+      }
+      if (obj.username) {
+        console.log('calling resolver current')
+        return "Sender";
+      }
     },
-
-
-
-
-    result:{
-        __resolveType(obj){
-            if(obj.name){
-                console.log('calling user')
-                return 'User'
-            }
-
-            if(obj.content){
-                console.log('calling post')
-                return 'Post'
-            }
-
-            if(obj.code){
-                console.log('calling error')
-                return 'AppError'
-            }
-        }
-    }
+  },
 };

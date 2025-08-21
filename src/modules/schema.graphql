@@ -11,6 +11,7 @@ type Query{
     books:[Book!]
     getBook(id:ID!):Book
     author(id:ID!):Author
+    chatHistory:[Text!]!
 }
 
 type Mutation{
@@ -22,6 +23,7 @@ type Mutation{
     postComment(content:String!,authorId:ID!,postId:ID!):Comment!
     postChat(content:String!,senderId:String!):Text!
     login(username:String,password:String!):Token!
+    logout:Sender!
 }
 type Token{
     token: String!
@@ -30,5 +32,5 @@ type Token{
 type Subscription{
     messagePosted:Message!
     commentPosted:Comment!
-    chatPosted:Text!
+    chatPosted:Current!
 }

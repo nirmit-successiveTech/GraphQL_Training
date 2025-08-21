@@ -4,11 +4,13 @@ export const Sender=[
       "id": "1",
       "username": "alice",
       "password": "alice123",
+      "status":"offline"
     },
     {
       "id": "2",
       "username": "bob",
       "password": "bob123",
+      "status":"offline"
     }
 ]
 
