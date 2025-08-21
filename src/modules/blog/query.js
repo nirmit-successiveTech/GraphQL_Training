@@ -1,16 +1,22 @@
 
-
-import { Post } from "./dataSource.js";
-import { Comment } from "./dataSource.js";
-import { User } from "./dataSource.js";
+import { Comments, Posts, Users } from "./dataSource.js";
 
 export const UserQueryResolver={
-    user:()=>User,
-    posts:()=>Post,
-    comments:()=>Comment,
+    users:()=>Users,
+    posts:()=>Posts,
+    comments:()=>Comments,
 
-    getUser:(_,{id})=>User.find(user => user.id===parseInt(id)),
-    getPost:(_,{id})=>Post.find(post => post.id===parseInt(id)),
-    getComment:(_,{id})=>Comment.find(comment => comment.id===parseInt(id))
+    getUser:(_,{id})=>Users.find(user => user.id===parseInt(id)),
+    getPost:(_,{id})=>Posts.find(post => post.id===parseInt(id)),
+    getComment:(_,{id})=>{
+        const value = Comments.find(comment => comment.id===parseInt(id))
+
+        if(!value){
+            throw new Error("Comment not found")
+
+        }
+        return value;
+
+    }
 
 }
