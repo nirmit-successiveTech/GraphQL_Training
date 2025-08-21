@@ -1,17 +1,17 @@
 import { Sender, Text } from "./dataSource.js";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 import { allChat } from "../../config/serverConfig.js";
+
 export const chatMutationResolver = {
-  postChat: (_, { content, senderId }, { verifyUser,pubsub}) => {
-    if(!verifyUser){
-      console.log("no user");
-      throw new Error("User does not exist")
+  postChat: (_, { content, senderId }, { verifyUser, pubsub }) => {
+    if (!verifyUser) {
+      throw new Error("User does not exist");
     }
     const decodedId = verifyUser.id;
-    if(decodedId!==senderId){
-      throw new Error("user not logged In")
+    if (decodedId !== senderId) {
+      throw new Error("user not logged In");
     }
-    console.log('decodedId',decodedId)
+
     const newChat = {
       id: String(Text.length + 1),
       content,
@@ -26,40 +26,36 @@ export const chatMutationResolver = {
     return newChat;
   },
 
-  login:(_,{username,password})=>{
-    console.log('starting...........',password)
-    const userExist =  Sender.find(sender => 
-      sender.password === password &&  sender.username === username
-    )
-    console.log('calling userexist',userExist)
-    userExist.status = "online"
-    console.log('calling userexist',userExist)
+  login: (_, { username, password }) => {
+    const userExist = Sender.find(
+      (sender) => sender.password === password && sender.username === username
+    );
 
-    if(userExist){
-      const token = jwt.sign({id:userExist.id},"secret_key123",{expiresIn:"2 hr"})
-      console.log('caling token',token)
-      return {token,status:1}
-    }else{
-      return {token:"",status:0}
+    userExist.status = "online";
+
+    if (userExist) {
+      const token = jwt.sign({ id: userExist.id }, "secret_key123", {
+        expiresIn: "2 hr",
+      });
+      return { token, status: 1 };
+    } else {
+      return { token: "", status: 0 };
     }
   },
 
-  logout:(_,__,{verifyUser,pubsub})=>{
-     if (!verifyUser) {
-    throw new Error("User not authenticated");
-  }
-    console.log("calling logout")
-    const decodedUser = Sender.find(sender => sender.id === verifyUser.id);
-    if(!decodedUser){
-      throw new Error("User does not exist")
+  logout: (_, __, { verifyUser, pubsub }) => {
+    if (!verifyUser) {
+      throw new Error("User not authenticated");
     }
-    console.log("decodedUser",decodedUser);
+    const decodedUser = Sender.find((sender) => sender.id === verifyUser.id);
+    if (!decodedUser) {
+      throw new Error("User does not exist");
+    }
     decodedUser.status = "offline";
 
     pubsub.publish("USER_OFFLINE", {
       chatPosted: decodedUser,
     });
-    return decodedUser
-  }
-
+    return decodedUser;
+  },
 };
