@@ -1,8 +1,9 @@
 import { bookModule } from "../modules/books/index.js";
 import { messageModule } from "../modules/message/index.js";
-import { Author } from "../modules/books/dataSource.js";
+import { Authors, Books } from "../modules/books/dataSource.js";
 import { blogModule } from "../modules/blog/index.js";
-import { Post, User } from "../modules/blog/dataSource.js";
+
+import { Comments, Posts, Users } from "../modules/blog/dataSource.js";
 
 export const resolvers = {
     Query:{
@@ -16,33 +17,43 @@ export const resolvers = {
         ...blogModule.Mutation
     },
 
-    Book:{
+    Books:{
         author:(parent)=>{
-            return Author.find(author =>author.id ===parent.authorId)
+            const findAuthor = Authors.find(author =>author.id === parent.authorId)
+            if(!findAuthor){
+                throw new Error("Cannot find author")
+            }
+            return findAuthor;
         }
     },
 
-    Post:{
+    Posts:{
         author:(parent)=>{
-            console.log(parent)
-            return User.find(user => user.id === parent.authorId)
+            const findUser = Users.find(user => user.id === parent.authorId);
+            if(!findUser){
+                throw new Error("Cannot find User")
+            }
+            return findUser
         }
     },
 
-    Comment:{
+    Comments:{
         post:(parent)=>{
-            return Post.find(post => post.id === parent.postId)
-        }
-    },
-
-    Comment:{
+            const findPost = Posts.find(post => post.id === parent.postId);
+            if(!findPost){
+                throw new Error("Cannot find Post");
+            }
+            return findPost
+        },
         author:(parent)=>{
-            console.log(parent)
-            const ans =  User.find(user => user.id === parent.authorId)
-            console.log("ans is",ans);
+            const ans =  Users.find(user => user.id === parent.authorId);
+            if(!ans){
+                throw new Error("Cannot find user")
+            }
             return ans;
         }
     },
+
 
     result:{
         __resolveType(obj){
@@ -62,4 +73,5 @@ export const resolvers = {
             }
         }
     }
+
 };

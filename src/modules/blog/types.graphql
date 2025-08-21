@@ -1,22 +1,22 @@
-type User{
+type Users{
     id:ID!,
     name:String!,
     email:String!
 }
 
-type Post{
+type Posts{
     id:ID!,
     title:String!,
     content:String!,
-    author:User!
+    author:Users!
 }
 
 
-type Comment{
+type Comments{
     id:ID!,
     content:String!,
-    post:Post!,
-    author:User!
+    post:Posts!,
+    author:Users!
 }
 
 type AppError{

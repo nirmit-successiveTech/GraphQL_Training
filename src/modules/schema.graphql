@@ -2,22 +2,29 @@
 
 type Query{
     messages: [Message!]!
-    user:[User!]
-    getUser(id:ID!):result!
-    getPost(id:ID!):Post!
-    posts(limit:Int!,offset:Int!,nature:String!):[Post!]!
-    comments:[Comment!]!
-    getComment(id:ID):Comment!
-    books:[Book!]
-    getBook(id:ID!):Book
-    author(id:ID!):Author
+
+    users:[Users!]
+    getUser(id:ID!):Users!
+    getPost(id:ID!):Posts!
+    posts:[Posts!]!
+    comments:[Comments!]!
+    getComment(id:ID):Comments!
+    books:[Books!]
+    getBook(id:ID!):Books!
+    author(id:ID!):Authors!
+    getbookbyauthor(id:ID):[Books!]!
+
 }
 
 type Mutation{
     postMessage(content:String!,author:String!):Message!
-    postBook(title:String!,genre:String!):Book!
+
+   
     postUser(name:String!,email:String!):User!
     deleteComment(id:ID!):ID!
     postPost(title:String!,content:String!,authorId:String!):Post!
     postComment(content:String!,authorId:ID!,postId:ID!):Comment!
+
+    postBook(title:String!,genre:String!):Books!
+
 }

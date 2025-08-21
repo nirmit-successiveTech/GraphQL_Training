@@ -1,13 +1,13 @@
 
-type Book{
+type Books{
     id:ID!,
     title:String!,
     year:Int!,
     genre:String!
-    author:Author!
+    author:Authors!
 }
 
-type Author{
+type Authors{
     id:ID!,
     name:String!,
     nationality:String!
