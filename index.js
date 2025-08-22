@@ -17,9 +17,11 @@
 
 // console.log(`🚀 Server ready at ${url}`);
 
+import { dbConnect } from "./db.js";
 import { createApolloServer } from "./src/server/express.js";
 
 const httpServer = await createApolloServer(4000);
+await dbConnect();
 
 httpServer.listen(4000, () => {
   console.log(`🚀 Query/Mutation endpoint: http://localhost:4000/graphql`);

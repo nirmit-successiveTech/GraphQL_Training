@@ -16,4 +16,12 @@ type allChat{
     userChat:Text
 }
 
+type UserType{
+    id:ID!
+    username:String!
+    password:String!
+    role:String!
+    status:String!
+}
+
 union Current = Sender | Text
