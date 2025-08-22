@@ -25,6 +25,18 @@ export const Posts =[
     "title": "Advanced GraphQL",
     "content": "This post dives into advanced GraphQL concepts.",
     "authorId": 2
+  },
+    {
+    "id": 3,
+    "title": "Advanced GraphQL",
+    "content": "This post dives into advanced GraphQL concepts.",
+    "authorId": 2
+  },
+    {
+    "id": 4,
+    "title": "Advanced GraphQL",
+    "content": "This post dives into advanced GraphQL by nirmit.",
+    "authorId": 2
   }
 ]
 
