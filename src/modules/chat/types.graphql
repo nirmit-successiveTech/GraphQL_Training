@@ -1,0 +1,19 @@
+
+type Sender{
+    id:String!
+    username:String!
+    password:String!
+    status:String!
+}
+
+type Text{
+    id:String!
+    content:String!
+    sender:Sender!
+}
+
+type allChat{
+    userChat:Text
+}
+
+union Current = Sender | Text
