@@ -1,0 +1,14 @@
+
+type Books{
+    id:ID!,
+    title:String!,
+    year:Int!,
+    genre:String!
+    author:Authors!
+}
+
+type Authors{
+    id:ID!,
+    name:String!,
+    nationality:String!
+}
