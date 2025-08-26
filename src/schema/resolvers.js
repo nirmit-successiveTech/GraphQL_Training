@@ -1,11 +1,12 @@
 import { bookModule } from "../modules/books/index.js";
 import { messageModule } from "../modules/message/index.js";
-import { Author } from "../modules/books/dataSource.js";
+import { Authors, Books } from "../modules/books/dataSource.js";
 import { blogModule } from "../modules/blog/index.js";
-import { Post, User } from "../modules/blog/dataSource.js";
+ 
 import { chatModule } from "../modules/chat/index.js";
 import { Sender } from "../modules/chat/dataSource.js";
 
+import { Comments, Posts, Users } from "../modules/blog/dataSource.js";
 export const resolvers = {
   Query: {
     ...messageModule.Query,
@@ -26,65 +27,58 @@ export const resolvers = {
     ...chatModule.Subscription,
   },
 
-  Book: {
-    author: (parent) => {
-      return Author.find((author) => author.id === parent.authorId);
-    },
-  },
 
-  Post: {
-    author: (parent) => {
-      console.log(parent);
-      return User.find((user) => user.id === parent.authorId);
-    },
+Books: {
+  author: (parent) => {
+    const findAuthor = Authors.find((author) => author.id === parent.authorId);
+    if (!findAuthor) {
+      throw new Error("Cannot find author");
+    }
+    return findAuthor;
   },
+},
 
-  Comment: {
-    post: (parent) => {
-      return Post.find((post) => post.id === parent.postId);
-    },
-    author: (parent) => {
-      console.log(parent);
-      const ans = User.find((user) => user.id === parent.authorId);
-      console.log("ans is", ans);
-      return ans;
-    },
+Text: {
+  sender: (parent) => {
+
+    return Sender.find((sender) => sender.id === parent.senderId);
   },
+},
 
-  Text: {
-    sender: (parent) => {
-      console.log("calling sender parent", parent);
-      return Sender.find((sender) => sender.id === parent.senderId);
-    },
+result: {
+  __resolveType(obj) {
+    if (obj.name) return "User";
+    if (obj.content) return "Post";
+    if (obj.code) return "AppError";
   },
+},
 
-  result: {
-    __resolveType(obj) {
-      if (obj.name) {
-        console.log("calling user");
-        return "User";
-      }
-
-      if (obj.content) {
-        console.log("calling post");
-        return "Post";
-      }
-
-      if (obj.code) {
-        console.log("calling error");
-        return "AppError";
-      }
-    },
+Current: {
+  __resolveType(obj) {
+    if (obj.content && obj.senderId) return "Text";
+    if (obj.username) return "Sender";
   },
-  Current: {
-    __resolveType(obj) {
-      if (obj.content && obj.senderId) {
-        return "Text";
-      }
-      if (obj.username) {
-        console.log('calling resolver current')
-        return "Sender";
-      }
-    },
+},
+
+Comments: {
+  post: (parent) => {
+    const findPost = Posts.find((post) => post.id === parent.postId);
+    if (!findPost) {
+      throw new Error("Cannot find Post");
+    }
+    return findPost;
   },
-};
+  author: (parent) => {
+    const ans = Users.find((user) => user.id === parent.authorId);
+    if (!ans) {
+      throw new Error("Cannot find user");
+    }
+    return ans;
+  },
+},
+
+
+
+}
+
+

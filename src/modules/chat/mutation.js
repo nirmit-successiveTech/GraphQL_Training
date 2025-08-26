@@ -10,7 +10,7 @@ export const chatMutationResolver = {
     if (!verifyUser) {
       throw new Error("User does not exist");
     }
-    console.log("postChat",verifyUser);
+
     const decodedId = verifyUser.id;
     if (decodedId !== senderId) {
       throw new Error("user not logged In");
@@ -33,7 +33,7 @@ export const chatMutationResolver = {
       await newUser.save();
       return newUser;
     } catch (error) {
-      console.log("error registering users", error);
+      throw new Error("Error creating user: " + error.message);
     }
   },
 
@@ -50,7 +50,7 @@ export const chatMutationResolver = {
       const token = jwt.sign({ id: userExist.id }, "secret_key123", {
         expiresIn: "2 hr",
       });
-      console.log("caling token", token);
+
       return { token, status: 1 };    
   },
 
@@ -58,7 +58,7 @@ export const chatMutationResolver = {
     if (!verifyUser) {
       throw new Error("User not authenticated");
     }
-    console.log("calling logout");
+  
     const logoutUser = await senderModel.findById(verifyUser.id)
     const decodedUser = Sender.find((sender) => sender.id === verifyUser.id);
     if (!logoutUser) {

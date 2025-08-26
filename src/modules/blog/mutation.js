@@ -27,7 +27,7 @@ export const blogMutation = {
       (comment) => comment.id === parseInt(id)
     );
     Comment.splice(commentId, 1);
-    console.log("comment id is", commentId);
+
     return commentId + 1;
   },
 

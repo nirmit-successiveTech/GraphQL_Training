@@ -1,6 +1,5 @@
 
-
-export const User =[
+export const Users =[
     {
     "id": 1,
     "name": "Alice",
@@ -10,11 +9,11 @@ export const User =[
     "id": 2,
     "name": "Bob",
     "email": "bob@example.com"
-  }
+  },
 ]
 
 
-export const Post=[
+export const Posts =[
     {
     "id": 1,
     "title": "GraphQL Basics",
@@ -41,7 +40,7 @@ export const Post=[
   }
 ]
 
-export const Comment=[
+export const Comments =[
     {
     "id": 1,
     "content": "Great post!",

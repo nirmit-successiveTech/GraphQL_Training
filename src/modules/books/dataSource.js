@@ -1,4 +1,4 @@
-export const Book = [
+export const Books = [
   {
     id: 1,
     title: "To Kill a Mockingbird",
@@ -11,7 +11,7 @@ export const Book = [
     title: "1984",
     year: 1949,
     genre: "Dystopian",
-    authorId: 2,
+    authorId: 1,
   },
   {
     id: 3,
@@ -22,7 +22,7 @@ export const Book = [
   },
 ];
 
-export const Author = [
+export const Authors = [
   {
     id: 1,
     name: "Harper Lee",
