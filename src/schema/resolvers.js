@@ -2,7 +2,7 @@ import { bookModule } from "../modules/books/index.js";
 import { messageModule } from "../modules/message/index.js";
 import { Authors, Books } from "../modules/books/dataSource.js";
 import { blogModule } from "../modules/blog/index.js";
- 
+
 import { chatModule } from "../modules/chat/index.js";
 import { Sender } from "../modules/chat/dataSource.js";
 
@@ -12,7 +12,7 @@ export const resolvers = {
     ...messageModule.Query,
     ...blogModule.Query,
     ...bookModule.Query,
-    ...chatModule.Query
+    ...chatModule.Query,
   },
   Mutation: {
     ...messageModule.Mutation,
@@ -27,58 +27,53 @@ export const resolvers = {
     ...chatModule.Subscription,
   },
 
-
-Books: {
-  author: (parent) => {
-    const findAuthor = Authors.find((author) => author.id === parent.authorId);
-    if (!findAuthor) {
-      throw new Error("Cannot find author");
-    }
-    return findAuthor;
+  Books: {
+    author: (parent) => {
+      const findAuthor = Authors.find(
+        (author) => author.id === parent.authorId
+      );
+      if (!findAuthor) {
+        throw new Error("Cannot find author");
+      }
+      return findAuthor;
+    },
   },
-},
 
-Text: {
-  sender: (parent) => {
-
-    return Sender.find((sender) => sender.id === parent.senderId);
+  Text: {
+    sender: (parent) => {
+      return Sender.find((sender) => sender.id === parent.senderId);
+    },
   },
-},
 
-result: {
-  __resolveType(obj) {
-    if (obj.name) return "User";
-    if (obj.content) return "Post";
-    if (obj.code) return "AppError";
+  result: {
+    __resolveType(obj) {
+      if (obj.name) return "User";
+      if (obj.content) return "Post";
+      if (obj.code) return "AppError";
+    },
   },
-},
 
-Current: {
-  __resolveType(obj) {
-    if (obj.content && obj.senderId) return "Text";
-    if (obj.username) return "Sender";
+  Current: {
+    __resolveType(obj) {
+      if (obj.content && obj.senderId) return "Text";
+      if (obj.username) return "Sender";
+    },
   },
-},
 
-Comments: {
-  post: (parent) => {
-    const findPost = Posts.find((post) => post.id === parent.postId);
-    if (!findPost) {
-      throw new Error("Cannot find Post");
-    }
-    return findPost;
+  Comments: {
+    post: (parent) => {
+      const findPost = Posts.find((post) => post.id === parent.postId);
+      if (!findPost) {
+        throw new Error("Cannot find Post");
+      }
+      return findPost;
+    },
+    author: (parent) => {
+      const ans = Users.find((user) => user.id === parent.authorId);
+      if (!ans) {
+        throw new Error("Cannot find user");
+      }
+      return ans;
+    },
   },
-  author: (parent) => {
-    const ans = Users.find((user) => user.id === parent.authorId);
-    if (!ans) {
-      throw new Error("Cannot find user");
-    }
-    return ans;
-  },
-},
-
-
-
-}
-
-
+};

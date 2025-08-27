@@ -15,9 +15,8 @@ type Posts{
 type Comments{
     id:ID!,
     content:String!,
-<<<<<<< HEAD
-    post:Post!,
-    author:User!
+    post:Posts!,
+    author:Users!
 }
 
 type AppError{
@@ -25,9 +24,8 @@ type AppError{
     code:Int!
 }
 
-union result = User | Post  | AppError
-=======
-    post:Posts!,
-    author:Users!
-}
->>>>>>> 33c364b0465378a1702641d37d1f43fdbac2344c
+union result = Users | Posts  | AppError
+
+  
+
+
