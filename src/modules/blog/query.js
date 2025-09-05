@@ -2,6 +2,7 @@
 import { Comments, Posts, Users } from "./dataSource.js";
 
 export const UserQueryResolver={
+
     users:()=>Users,
     posts:()=>Posts,
     comments:()=>Comments,
@@ -18,5 +19,6 @@ export const UserQueryResolver={
         return value;
 
     }
+
 
 }

@@ -18,3 +18,14 @@ type Comments{
     post:Posts!,
     author:Users!
 }
+
+type AppError{
+    message:String!,
+    code:Int!
+}
+
+union result = Users | Posts  | AppError
+
+  
+
+
